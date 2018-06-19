@@ -50,7 +50,7 @@ let brect = UnsafeMutablePointer<Int32>(mutating: nil)
 
 gdImageStringFT(pointer, brect, black, fontPointer, Double(height) * 0.75, 0, 0, Int32(Double(height) * 0.9), text)
 
-let handler = fopen("./result.png", "wb")
+let handler = fopen(outputPath, "wb")
 gdImagePng(pointer, handler)
 fclose(handler)
 
