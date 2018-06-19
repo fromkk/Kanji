@@ -55,8 +55,6 @@ guard let size = Kanji.imageSize(character, fontPath: fontPath, height: height, 
 
 Kanji.draw(character, fontPath: fontPath, height: height, size: size, pointer: pointer)
 
-
-
 let handler = fopen(outputPath, "wb")
 gdImagePng(pointer, handler)
 fclose(handler)

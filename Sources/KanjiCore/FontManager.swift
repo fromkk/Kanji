@@ -19,15 +19,18 @@ public class FontManager {
             exit(1)
         }
         
-        let fontLibrary = URL(fileURLWithPath: "/System/Library/Fonts/").appendingPathComponent(font)
-        let fontUser = URL(fileURLWithPath: "/Users/\(username)/Library/Fonts/").appendingPathComponent(font)
+        let directories = [
+            "/System/Library/Fonts/",
+            "/Library/Fonts/",
+            "/Users/\(username)/Library/Fonts/",
+        ]
         
-        if fileManager.fileExists(atPath: fontLibrary.path) {
-            return fontLibrary.path
-        } else if fileManager.fileExists(atPath: fontUser.path) {
-            return fontUser.path
-        } else {
-            return nil
+        for directory in directories {
+            let url = URL(fileURLWithPath: directory).appendingPathComponent(font)
+            if fileManager.fileExists(atPath: url.path) {
+                return url.path
+            }
         }
+        return nil
     }
 }
