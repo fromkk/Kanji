@@ -34,6 +34,13 @@ guard let outputPath = arguments["output"] else {
     exit(1)
 }
 
+do {
+    try Kanji.setup(with: outputPath)
+} catch {
+    print(error)
+    exit(1)
+}
+
 let width: Int32 = Int32(arguments["width"] ?? "300")!
 let height: Int32 = Int32(arguments["height"] ?? "300")!
 
@@ -48,9 +55,13 @@ guard let size = Kanji.imageSize(character, fontPath: fontPath, height: height, 
 
 Kanji.draw(character, fontPath: fontPath, height: height, size: size, pointer: pointer)
 
+
+
 let handler = fopen(outputPath, "wb")
 gdImagePng(pointer, handler)
 fclose(handler)
 
 gdImageColorDeallocate(pointer, white)
 gdImageDestroy(pointer)
+
+print("Done! \(outputPath)")
