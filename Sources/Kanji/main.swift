@@ -21,7 +21,7 @@ guard let character = arguments["character"], character.count == 1 else {
     exit(1)
 }
 
-let font = arguments["font"] ?? "SourceHanCodeJP.ttc"
+let font = arguments["font"] ?? "ヒラギノ角ゴシック W3.ttc"
 
 guard let fontPath = FontManager.path(of: font) else {
     print("font \(font) is not found")
@@ -37,18 +37,16 @@ guard let outputPath = arguments["output"] else {
 let width: Int32 = Int32(arguments["width"] ?? "300")!
 let height: Int32 = Int32(arguments["height"] ?? "300")!
 
-let pointer = gdImageCreateTrueColor(width, height)
+let pointer = gdImageCreateTrueColor(width, height)!
 
 let white = gdImageColorAllocate(pointer, 255, 255, 255)
 gdImageFilledRectangle(pointer, 0, 0, width, height, white)
 
-let black = gdImageColorAllocate(pointer, 0, 0, 0)
+guard let size = Kanji.imageSize(character, fontPath: fontPath, height: height, pointer: pointer) else {
+    exit(1)
+}
 
-let text = UnsafeMutablePointer<Int8>(mutating: (character as NSString).utf8String!)
-let fontPointer = UnsafeMutablePointer<Int8>(mutating: fontPath)
-let brect = UnsafeMutablePointer<Int32>(mutating: nil)
-
-gdImageStringFT(pointer, brect, black, fontPointer, Double(height) * 0.75, 0, 0, Int32(Double(height) * 0.9), text)
+Kanji.draw(character, fontPath: fontPath, height: height, size: size, pointer: pointer)
 
 let handler = fopen(outputPath, "wb")
 gdImagePng(pointer, handler)
