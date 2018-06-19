@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "Cgd",
-        "repositoryURL": "/Users/fromkk/Documents/Development/mac/Kanji/Cgd",
+        "repositoryURL": "https://github.com/fromkk/Cgd",
         "state": {
           "branch": null,
           "revision": "14923bc9b3b24aab41e26f74587d5a199ab822c7",
-          "version": "0.0.3"
+          "version": "0.0.1"
         }
       }
     ]
